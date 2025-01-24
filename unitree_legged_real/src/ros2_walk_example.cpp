@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 
     auto node = rclcpp::Node::make_shared("node_ros2_walk_example");
 
+    // 500hz frequency
     rclcpp::WallRate loop_rate(500);
 
     long motiontime = 0;
@@ -28,11 +29,13 @@ int main(int argc, char **argv)
     // rclcpp::Publisher<ros2_unitree_legged_msgs::msg::HighCmd>::SharedPtr pub =
     //     node->create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 1);
 
+    // 1 is the queue size
     auto pub = node->create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 1);
 
     while (rclcpp::ok())
     {
-
+        // since the loop runs at 500hz
+        // we add 2, which is miliseconds
         motiontime += 2;
 
         high_cmd_ros.head[0] = 0xFE;
@@ -98,11 +101,11 @@ int main(int argc, char **argv)
         }
         if (motiontime > 9000 && motiontime < 11000)
         {
-            high_cmd_ros.mode = 5;
+            //high_cmd_ros.mode = 5;
         }
         if (motiontime > 11000 && motiontime < 13000)
         {
-            high_cmd_ros.mode = 6;
+            //high_cmd_ros.mode = 6;
         }
         if (motiontime > 13000 && motiontime < 14000)
         {
@@ -110,24 +113,28 @@ int main(int argc, char **argv)
         }
         if (motiontime > 14000 && motiontime < 18000)
         {
-            high_cmd_ros.mode = 2;
-            high_cmd_ros.gait_type = 2;
-            high_cmd_ros.velocity[0] = 0.4f; // -1  ~ +1
-            high_cmd_ros.yaw_speed = 2;
-            high_cmd_ros.foot_raise_height = 0.1;
+            // MOVING PART
+            //high_cmd_ros.mode = 2;
+            //high_cmd_ros.gait_type = 2;
+            //high_cmd_ros.velocity[0] = 0.4f; // -1  ~ +1
+            //high_cmd_ros.yaw_speed = 2;
+            //high_cmd_ros.foot_raise_height = 0.1;
             // printf("walk\n");
         }
         if (motiontime > 18000 && motiontime < 20000)
         {
-            high_cmd_ros.mode = 0;
-            high_cmd_ros.velocity[0] = 0;
+            // MOVING PART STOPPED
+            //high_cmd_ros.mode = 0;
+            //high_cmd_ros.velocity[0] = 0;
         }
         if (motiontime > 20000 && motiontime < 24000)
         {
-            high_cmd_ros.mode = 2;
-            high_cmd_ros.gait_type = 1;
-            high_cmd_ros.velocity[0] = 0.2f; // -1  ~ +1
-            high_cmd_ros.body_height = 0.1;
+
+            // MOVING AGAIN
+            //high_cmd_ros.mode = 2;
+            //high_cmd_ros.gait_type = 1;
+            //high_cmd_ros.velocity[0] = 0.2f; // -1  ~ +1
+            //high_cmd_ros.body_height = 0.1;
             // printf("walk\n");
         }
         if (motiontime > 24000)
