@@ -33,6 +33,14 @@ install(
 
 link_directories(${CMAKE_SOURCE_DIR}/unitree_legged_sdk-master/lib)
 
+add_executable(frames_open_palm src/frames_open_palm.cpp)
+target_link_libraries(frames_open_palm ${EXTRA_LIBS})
+ament_target_dependencies(frames_open_palm rclcpp ros2_unitree_legged_msgs)
+
+add_executable(frames_like src/frames_like.cpp)
+target_link_libraries(frames_like ${EXTRA_LIBS})
+ament_target_dependencies(frames_like rclcpp ros2_unitree_legged_msgs)
+
 add_executable(ros2_udp src/ros2_udp.cpp)
 target_link_libraries(ros2_udp ${EXTRA_LIBS})
 ament_target_dependencies(ros2_udp rclcpp ros2_unitree_legged_msgs)
@@ -66,6 +74,8 @@ target_link_libraries(custom_gait ${EXTRA_LIBS})
 ament_target_dependencies(custom_gait rclcpp ros2_unitree_legged_msgs)
 
 install(TARGETS
+    frames_open_palm
+    frames_like
     ros2_udp
     udp_high
     jsp_high

@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     //     node->create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 1);
 
     // 1 is the queue size
-    auto pub = node->create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 1);
+    auto pub = node -> create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 1);
 
     while (rclcpp::ok())
     {
