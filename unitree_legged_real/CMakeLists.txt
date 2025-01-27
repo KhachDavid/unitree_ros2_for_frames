@@ -9,6 +9,7 @@ find_package(rclcpp REQUIRED)
 find_package(ros2_unitree_legged_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
+find_package(std_msgs)
 
 message(STATUS "-- CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "x86_64.*")
@@ -35,7 +36,7 @@ link_directories(${CMAKE_SOURCE_DIR}/unitree_legged_sdk-master/lib)
 
 add_executable(frames_open_palm src/frames_open_palm.cpp)
 target_link_libraries(frames_open_palm ${EXTRA_LIBS})
-ament_target_dependencies(frames_open_palm rclcpp ros2_unitree_legged_msgs)
+ament_target_dependencies(frames_open_palm rclcpp ros2_unitree_legged_msgs std_msgs)
 
 add_executable(frames_like src/frames_like.cpp)
 target_link_libraries(frames_like ${EXTRA_LIBS})

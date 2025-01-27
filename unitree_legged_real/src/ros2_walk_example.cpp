@@ -92,20 +92,20 @@ int main(int argc, char **argv)
         if (motiontime > 7000 && motiontime < 8000)
         {
             high_cmd_ros.mode = 1;
-            high_cmd_ros.body_height = 0.1;
+            //high_cmd_ros.body_height = 0.1;
         }
         if (motiontime > 8000 && motiontime < 9000)
         {
             high_cmd_ros.mode = 1;
-            high_cmd_ros.body_height = 0.0;
+            //high_cmd_ros.body_height = 0.0;
         }
         if (motiontime > 9000 && motiontime < 11000)
         {
-            //high_cmd_ros.mode = 5;
+            high_cmd_ros.mode = 5;
         }
         if (motiontime > 11000 && motiontime < 13000)
         {
-            //high_cmd_ros.mode = 6;
+            high_cmd_ros.mode = 6;
         }
         if (motiontime > 13000 && motiontime < 14000)
         {

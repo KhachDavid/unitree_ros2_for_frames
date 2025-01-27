@@ -11,10 +11,10 @@ using namespace UNITREE_LEGGED_SDK;
 int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
-    std::cout << "WARNING: Control level is set to HIGH-level." << std::endl
-              << "Make sure the robot is standing on the ground." << std::endl
-              << "Press Enter to continue..." << std::endl;
-    std::cin.ignore();
+    //std::cout << "WARNING: Control level is set to HIGH-level." << std::endl
+    //          << "Make sure the robot is standing on the ground." << std::endl
+    //          << "Press Enter to continue..." << std::endl;
+    //std::cin.ignore();
 
     auto node = rclcpp::Node::make_shared("node_ros2_frames_open_palm");
 
