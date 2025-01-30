@@ -62,20 +62,19 @@ void motion_loop()
 
     int target_body_height = 0; // Default neutral posture
 
-    // Decide the target body height based on the gesture
-    if (current_gesture_ == "open_palm")
+    switch (current_gesture_)
     {
+    case "open_palm":
         RCLCPP_INFO(this->get_logger(), "Executing 'open_palm' command.");
-        //target_body_height = -0.2;  // Lower the body
         high_cmd_ros.mode = 5;
-    }
-    else if (current_gesture_ == "thumb_up")
-    {
+        break;
+
+    case "thumb_up":
         RCLCPP_INFO(this->get_logger(), "Executing 'thumb_up' command.");
         high_cmd_ros.mode = 6;
-    }
-    else
-    {
+        break;
+
+    default:
         RCLCPP_WARN(this->get_logger(), "No valid gesture detected. Keeping neutral state.");
         return; // Do nothing if gesture is invalid
     }
