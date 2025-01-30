@@ -24,16 +24,11 @@ public:
                 RCLCPP_INFO(this->get_logger(), "Received gesture: '%s'", msg->data.c_str());
                 this->current_gesture_ = msg->data;
 
-                // Optional: Validate the gesture
-                if (this->current_gesture_ != "open_palm" && this->current_gesture_ != "thumb_up")
-                {
-                    RCLCPP_WARN(this->get_logger(), "Unknown gesture received: '%s'", this->current_gesture_.c_str());
-                }
             });
 
         // Timer to repeatedly execute the main motion loop at 500Hz (2ms per loop)
         timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(2), // 2ms loop rate
+            std::chrono::milliseconds(500), // 2ms loop rate
             std::bind(&RobotControlNode::motion_loop, this));
     }
 
@@ -59,23 +54,79 @@ void motion_loop()
     high_cmd_ros.yaw_speed = 0.0f;
     high_cmd_ros.reserve = 0;
 
-
     int target_body_height = 0; // Default neutral posture
 
-    switch (current_gesture_)
+    if (current_gesture_ == "down")
     {
-    case "open_palm":
-        RCLCPP_INFO(this->get_logger(), "Executing 'open_palm' command.");
+        RCLCPP_INFO(this->get_logger(), "Executing 'down' command.");
+        high_cmd_ros.velocity[0] = 0;
+        high_cmd_ros.velocity[1] = 0;
         high_cmd_ros.mode = 5;
-        break;
+    }
 
-    case "thumb_up":
-        RCLCPP_INFO(this->get_logger(), "Executing 'thumb_up' command.");
+    else if (current_gesture_ == "up") {
+        RCLCPP_INFO(this->get_logger(), "Executing 'up' command.");
+        
+        high_cmd_ros.velocity[0] = 0;
+        high_cmd_ros.velocity[1] = 0;
+
         high_cmd_ros.mode = 6;
-        break;
+    }
+    else if (current_gesture_ == "right") {
+        RCLCPP_INFO(this->get_logger(), "Executing 'going right' command.");
+        high_cmd_ros.mode = 2;
+        high_cmd_ros.gait_type = 1;
+        high_cmd_ros.velocity[0] = 0; // -1  ~ +1
+        high_cmd_ros.velocity[1] = -0.2f; // Goes right
+        high_cmd_ros.foot_raise_height = 0.1;
+    }
+    else if (current_gesture_ == "left") {
+        RCLCPP_INFO(this->get_logger(), "Executing 'going left' command.");
+        high_cmd_ros.mode = 2;
+        high_cmd_ros.gait_type = 1;
+        high_cmd_ros.velocity[0] = 0; // -1  ~ +1
+        high_cmd_ros.velocity[1] = 0.2f; // Goes left
+        high_cmd_ros.foot_raise_height = 0.1;
+    }
+    else if (current_gesture_ == "forward") {
+        RCLCPP_INFO(this->get_logger(), "Executing 'going forward' command.");
+        high_cmd_ros.mode = 2;
+        high_cmd_ros.gait_type = 1;
+        high_cmd_ros.velocity[0] = 0.2f; // Goes forward
+        high_cmd_ros.velocity[1] = 0; // -1  ~  +1
+        high_cmd_ros.foot_raise_height = 0.1;
+    }
+    else if (current_gesture_ == "back") {
+        RCLCPP_INFO(this->get_logger(), "Executing 'going backward' command.");
+        high_cmd_ros.mode = 2;
+        high_cmd_ros.gait_type = 1;
+        high_cmd_ros.velocity[0] = -0.2f; // Goes backward
+        high_cmd_ros.velocity[1] = 0; // -1  ~ +1
+        high_cmd_ros.foot_raise_height = 0.1;
+    }
 
-    default:
+    else if (current_gesture_ == "hand") {
+        RCLCPP_INFO(this->get_logger(), "Executing 'hand' command.");
+        high_cmd_ros.velocity[0] = 0;
+        high_cmd_ros.velocity[1] = 0;
+
+        // set the mode to 1 first
+        high_cmd_ros.mode = 1;
+        pub_ -> publish(high_cmd_ros);
+
+
+        high_cmd_ros.mode = 11;
+    }
+
+
+
+    else  {
         RCLCPP_WARN(this->get_logger(), "No valid gesture detected. Keeping neutral state.");
+        
+        // Do nothing if gesture is invalid
+        high_cmd_ros.velocity[0] = 0;
+        high_cmd_ros.velocity[1] = 0;
+
         return; // Do nothing if gesture is invalid
     }
 
