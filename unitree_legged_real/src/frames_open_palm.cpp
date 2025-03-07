@@ -14,7 +14,7 @@ class RobotControlNode : public rclcpp::Node
 public:
     RobotControlNode() : Node("node_ros2_frames_open_palm")
     {
-        // Publisher for robot commands
+        // Publisher for robot   commands
         pub_ = this->create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 1);
 
         // Subscriber to the "active_gesture" topic
@@ -28,7 +28,7 @@ public:
 
         // Timer to repeatedly execute the main motion loop at 500Hz (2ms per loop)
         timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(500), // 2ms loop rate
+            std::chrono::milliseconds(2), // 2ms loop rate
             std::bind(&RobotControlNode::motion_loop, this));
     }
 
@@ -77,7 +77,7 @@ void motion_loop()
         high_cmd_ros.mode = 2;
         high_cmd_ros.gait_type = 1;
         high_cmd_ros.velocity[0] = 0; // -1  ~ +1
-        high_cmd_ros.velocity[1] = -0.2f; // Goes right
+        high_cmd_ros.velocity[1] = -0.4f; // Goes right
         high_cmd_ros.foot_raise_height = 0.1;
     }
     else if (current_gesture_ == "left") {
@@ -85,14 +85,14 @@ void motion_loop()
         high_cmd_ros.mode = 2;
         high_cmd_ros.gait_type = 1;
         high_cmd_ros.velocity[0] = 0; // -1  ~ +1
-        high_cmd_ros.velocity[1] = 0.2f; // Goes left
+        high_cmd_ros.velocity[1] = 0.4f; // Goes left
         high_cmd_ros.foot_raise_height = 0.1;
     }
     else if (current_gesture_ == "forward") {
         RCLCPP_INFO(this->get_logger(), "Executing 'going forward' command.");
         high_cmd_ros.mode = 2;
         high_cmd_ros.gait_type = 1;
-        high_cmd_ros.velocity[0] = 0.2f; // Goes forward
+        high_cmd_ros.velocity[0] = 0.4f; // Goes forward
         high_cmd_ros.velocity[1] = 0; // -1  ~  +1
         high_cmd_ros.foot_raise_height = 0.1;
     }
@@ -100,7 +100,7 @@ void motion_loop()
         RCLCPP_INFO(this->get_logger(), "Executing 'going backward' command.");
         high_cmd_ros.mode = 2;
         high_cmd_ros.gait_type = 1;
-        high_cmd_ros.velocity[0] = -0.2f; // Goes backward
+        high_cmd_ros.velocity[0] = -0.4f; // Goes backward
         high_cmd_ros.velocity[1] = 0; // -1  ~ +1
         high_cmd_ros.foot_raise_height = 0.1;
     }

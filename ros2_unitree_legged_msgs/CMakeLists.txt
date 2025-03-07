@@ -22,7 +22,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/MotorCmd.msg"
   "msg/MotorState.msg"
   "msg/BmsCmd.msg"
-  "msg/BmsState.msg"
+  "msg/BmsState.msg" 
   "msg/Cartesian.msg"
   "msg/IMU.msg"
   "msg/LED.msg"

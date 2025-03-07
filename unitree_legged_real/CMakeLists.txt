@@ -10,6 +10,8 @@ find_package(ros2_unitree_legged_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 find_package(std_msgs)
+find_package(cv_bridge REQUIRED)
+find_package(OpenCV REQUIRED)
 
 message(STATUS "-- CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "x86_64.*")
@@ -41,6 +43,9 @@ ament_target_dependencies(frames_open_palm rclcpp ros2_unitree_legged_msgs std_m
 add_executable(frames_like src/frames_like.cpp)
 target_link_libraries(frames_like ${EXTRA_LIBS})
 ament_target_dependencies(frames_like rclcpp ros2_unitree_legged_msgs)
+
+add_executable(unitree_image_feed src/unitree_image_feed.cpp)
+ament_target_dependencies(unitree_image_feed rclcpp sensor_msgs cv_bridge)
 
 add_executable(ros2_udp src/ros2_udp.cpp)
 target_link_libraries(ros2_udp ${EXTRA_LIBS})
@@ -85,6 +90,7 @@ install(TARGETS
     custom_gait
     udp_low
     jsp_low
+    unitree_image_feed
     DESTINATION lib/${PROJECT_NAME}
 )
 
